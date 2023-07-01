@@ -15,6 +15,6 @@ mongoose.connect(DB).then(()=>{
 });
 
 
-app.listen(PORT,"0.0.0.0",() =>{
+app.listen(PORT,"192.168.133.186",() =>{
     console.log(`connected at port ${PORT}`);
 });
