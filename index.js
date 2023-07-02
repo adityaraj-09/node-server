@@ -1,12 +1,18 @@
 const express=require("express");
 const PORT=process.env.PORT || 3000;
 const mongoose=require("mongoose");
-const authRouter=require("./auth");
 
+const authRouter=require("./auth");
+const productRouter=require("./ProductApi");
+const userRouter=require("./userApi");
 const app=express();
 const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
+
+
 app.use(express.json());
 app.use(authRouter);
+app.use(productRouter);
+app.use(userRouter);
 
 mongoose.connect(DB).then(()=>{
     console.log('connection successful');
@@ -15,6 +21,6 @@ mongoose.connect(DB).then(()=>{
 });
 
 
-app.listen(PORT,"192.168.133.186",() =>{
+app.listen(PORT,"0.0.0.0",() =>{
     console.log(`connected at port ${PORT}`);
 });

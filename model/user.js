@@ -1,4 +1,6 @@
 const mongoose= require("mongoose");
+const { productSchema } = require("./product");
+
 const userSchema=mongoose.Schema({
     name:{
         required:true,
@@ -28,6 +30,11 @@ const userSchema=mongoose.Schema({
             message:'Please enter valid email'
         },
     },
+    address: {
+        type: String,
+        default: "",
+      },
+      
 });
 
 const User=mongoose.model( "user",userSchema);

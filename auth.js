@@ -1,6 +1,8 @@
 const express=require("express");
 const User=require("./model/user");
 const authRouter=express.Router();
+const bcrypt=require("bcryptjs");
+var salt=bcrypt.genSalt(10);
 
 authRouter.post("/api/signup",async (req,res)=>{
   try {
@@ -14,11 +16,14 @@ authRouter.post("/api/signup",async (req,res)=>{
         msg:"User with same email already exists"
     });
    }
+   
+
+   const hash=await bcrypt.hash(password,8);
 
    let user= new User({
      name:req.body.name,
      email:req.body.email,
-     password:req.body.password,
+     password: hash,
      
    });
    user=await user.save();
@@ -38,5 +43,9 @@ authRouter.get("/api/users",async(req,res)=>{
     res.status(500).json({error:error.message});
   }
 })
+
+
+
+
 
 module.exports=authRouter;
