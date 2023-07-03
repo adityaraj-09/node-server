@@ -8,7 +8,6 @@ const userRouter=require("./userApi");
 const app=express();
 const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
 
-
 app.use(express.json());
 app.use(authRouter);
 app.use(productRouter);
