@@ -10,6 +10,11 @@
         type:String,
         trim:true
     },
+    category:{
+          required:true,
+          type:String,
+          trim:true
+    },
     desc:{
         required:true,
         type:String,

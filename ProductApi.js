@@ -4,11 +4,12 @@ const router=express.Router();
 
 router.post("/api/addProduct",async (req,res) =>{
     try {
-        const {userId,title,desc,price,location,isNegotiable,image} =req.body;
+        const {userId,title,category,desc,price,location,isNegotiable,image} =req.body;
 
         let product=new Product({
             userId:req.body.userId,
             title:req.body.title,
+            category:req.body.category,
             desc:req.body.desc,
             price:req.body.price,
             location:req.body.location,
@@ -40,11 +41,12 @@ router.post("/api/deleteProduct",async (req,res)=>{
 router.post("/api/editProduct/:id",async(req,res)=>{
     try {
         const {id}=req.params;
-        const {title,userId,desc,price,location,isNegotiable,image} =req.body;
+        const {title,userId,category,desc,price,location,isNegotiable,image} =req.body;
         const product=await Product.findById(id);
 
         product.title=title;
         product.userId=userId;
+        product.category=category;
         product.desc=desc;
         product.price=price;
         product.location=location;
@@ -72,9 +74,22 @@ router.get("/api/getProductById/:id",async (req,res)=>{
          res.status(500).json({error:error.message});
     }
 })
+
 router.get("/api/products",async (req,res)=>{
     try{
         const products=await Product.find();
+        res.status(200).json(products);
+        }
+        catch (error){
+        res.status(500).json({error:error.message});
+        }
+});
+router.get("/api/products/:userId",async (req,res)=>{
+    try{
+        const {userId} =req.params;
+        const products=await Product.find({
+            userId:userId
+        });
         res.status(200).json(products);
         }
         catch (error){
