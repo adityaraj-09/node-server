@@ -1,13 +1,13 @@
 const express=require("express");
-const User=require("./model/user");
+const User=require("../model/user");
 const authRouter=express.Router();
 const bcrypt=require("bcryptjs");
 
 authRouter.post("/api/update-user",async (req,res)=>{
     try {
-        const {name,new_email,old_email,password,address}=req.body;
+        const {name,email,password,address}=req.body;
         const existingUser=await User.findOne({
-            email:old_email
+            email:email
            });
 
            if(!existingUser){

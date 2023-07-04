@@ -1,5 +1,5 @@
 const express=require("express");
-const Product = require("./model/product");
+const {Product} = require("../model/product");
 const router=express.Router();
 
 router.post("/api/addProduct",async (req,res) =>{
@@ -18,7 +18,7 @@ router.post("/api/addProduct",async (req,res) =>{
         })
 
         product=await product.save();
-        res.json(product);
+        res.status(200).json(product);
 
     } catch (error) {
          res.status(500).json({error:error.message});
@@ -30,7 +30,6 @@ router.post("/api/addProduct",async (req,res) =>{
 router.post("/api/deleteProduct",async (req,res)=>{
     try {
         const {id}=req.body;
-
     let product=await Product.findByIdAndDelete(id);
     res.status(400).json({msg:"deleted product "});
     } catch (error) {

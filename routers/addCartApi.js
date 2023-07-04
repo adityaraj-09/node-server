@@ -1,0 +1,96 @@
+const mongoose=require("mongoose");
+const express=require("express");
+const Cart=require("../model/cart");
+const {Product}=require("../model/product");
+
+const router=express.Router();~
+
+router.post("/api/addToCart",async (req,res) =>{
+    try {
+    const {userId,id,quantity}=req.body;
+    const product=await Product.findById(id);
+    const cart=await Cart.findOne({userId:userId});
+    
+    if(cart){
+        if(cart.products==[]){
+            cart.products.push({product:product,quantity:quantity});
+
+            const added=await cart.save();
+            res.status(200).json(added);
+    
+        }else{
+            let isProductFound=false;
+            for(let i=0;i<cart.products.length;i++){
+                if(cart.products[i].product._id.equals(product._id)){
+                    isProductFound=true;
+                }
+            }
+    
+            if(isProductFound){
+                res.status(400).json({msg:"already in the cart"});
+            }else{
+                cart.products.push({product:product,quantity:quantity});
+                const added=await cart.save();
+                res.status(200).json(added);
+            }
+    
+           
+        } 
+    }else{
+        var products=[];
+        products.push({product:product,quantity:quantity});
+        let firstTimeaddToCart=new Cart({
+            userId:userId,
+            products:products
+        });
+        firstTimeaddToCart=await firstTimeaddToCart.save();
+        res.status(200).json(firstTimeaddToCart);
+
+    }
+
+    
+   
+    
+        
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+    
+
+});
+
+router.get("/api/cart/:userId",async (req,res)=>{
+    const {userId}=req.params;
+    const cart=await Cart.findOne({userId:userId});
+
+    res.status(200).json(cart.products);
+});
+
+router.post("/api/remove-from-cart",async (req,res)=>{
+    try {
+    const {id,userId}=req.body;
+    const cart=await Cart.findOne({userId:userId});
+    
+    var productsArray=cart.products;
+    for(let i=0;i<productsArray.length;i++){
+        if(productsArray[i].product._id.equals(id)){
+            productsArray.splice(i,1);
+        }
+    }
+     
+    res.status(200).json({msg:"removed from cart"});
+
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+    
+
+});
+
+
+
+
+
+
+
+module.exports=router;

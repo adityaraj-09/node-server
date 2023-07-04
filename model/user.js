@@ -27,13 +27,25 @@ const userSchema=mongoose.Schema({
             validator:(value) =>{
                 return value.length>6;
             },
-            message:'Please enter valid email'
+            message:'password must be more than 6 characters long'
         },
     },
     address: {
         type: String,
         default: "",
       },
+    
+    phone:{
+        type:String,
+        default:"",
+        trim:true,
+        validate:{
+            validator:(value)=>{
+                return value.length==12;
+            },
+            message:'enter valid phone number'
+        }
+    }  
       
 });
 
