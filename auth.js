@@ -6,9 +6,9 @@ const jwt = require("jsonwebtoken");
 var salt=bcrypt.genSalt(10);
 const auth=require("./middlewares/authMiddleware");
 
-authRouter.post("/api/signup",async (req,res)=>{
+authRouter.post("/api/signUp",async (req,res)=>{
   try {
-    const {name,email,password,address,phone}=req.body;
+    const {name,email,password,address,phone,image}=req.body;
   const existingUser=await User.findOne({
     email:email
    });
@@ -27,7 +27,8 @@ authRouter.post("/api/signup",async (req,res)=>{
      email:email,
      password: hash,
      address:address,
-     phone:phone
+     phone:phone,
+     image:image
      
    });
    user=await user.save();

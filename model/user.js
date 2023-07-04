@@ -45,6 +45,10 @@ const userSchema=mongoose.Schema({
             },
             message:'enter valid phone number'
         }
+    },
+    image:{
+        type: String,
+        default: "",
     }  
       
 });
