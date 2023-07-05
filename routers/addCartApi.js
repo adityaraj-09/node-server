@@ -2,6 +2,7 @@ const mongoose=require("mongoose");
 const express=require("express");
 const Cart=require("../model/cart");
 const {Product}=require("../model/product");
+const auth=require("../middlewares/authMiddleware");
 
 const router=express.Router();~
 
@@ -62,8 +63,12 @@ router.post("/api/addToCart",async (req,res) =>{
 router.get("/api/cart/:userId",async (req,res)=>{
     const {userId}=req.params;
     const cart=await Cart.findOne({userId:userId});
-
-    res.status(200).json(cart.products);
+    if(cart){
+        res.status(200).json(cart.products);
+    }else{
+        res.status(400).json({msg:"not available"});
+    }
+    
 });
 
 router.post("/api/remove-from-cart",async (req,res)=>{

@@ -1,6 +1,7 @@
 const mongoose= require("mongoose");
 const { productSchema } = require("./product");
 
+
 const userSchema=mongoose.Schema({
     name:{
         required:true,
@@ -8,6 +9,7 @@ const userSchema=mongoose.Schema({
         trim:true,
 
     },
+
     email:{
         required:true,
         type:String,
@@ -39,12 +41,7 @@ const userSchema=mongoose.Schema({
         type:String,
         default:"",
         trim:true,
-        validate:{
-            validator:(value)=>{
-                return value.length==12;
-            },
-            message:'enter valid phone number'
-        }
+        
     },
     image:{
         type: String,
