@@ -32,7 +32,7 @@ router.post("/api/deleteProduct",async (req,res)=>{
     try {
         const {id}=req.body;
     let product=await Product.findByIdAndDelete(id);
-    res.status(400).json({msg:"deleted product "});
+    res.status(200).json({msg:"deleted product "});
     } catch (error) {
         res.status(500).json({error:error.message});
     }
@@ -55,7 +55,7 @@ router.post("/api/editProduct/:id",async(req,res)=>{
 
         updatedProduct=await product.save();
 
-        res.status(400).json({msg:"product updated"});
+        res.status(200).json({msg:"product updated"});
 
     } catch (error) {
         res.status(500).json({error:error.message});
@@ -78,7 +78,12 @@ router.get("/api/getProductById/:id",async (req,res)=>{
 router.get("/api/products",async (req,res)=>{
     try{
         const products=await Product.find();
-        res.status(200).json(products);
+        if(products){
+            res.status(200).json(products);
+        }else{
+            res.status(400).json({msg:"no products"});
+        }
+        
         }
         catch (error){
         res.status(500).json({error:error.message});
@@ -90,7 +95,12 @@ router.get("/api/products/:userId",async (req,res)=>{
         const products=await Product.find({
             userId:userId
         });
-        res.status(200).json(products);
+        if(products){
+            res.status(200).json(products);
+        }else{
+            res.status(400).json({msg:"no product added by you"});
+        }
+       
         }
         catch (error){
         res.status(500).json({error:error.message});
