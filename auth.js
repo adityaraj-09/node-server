@@ -38,7 +38,7 @@ authRouter.post("/api/signUp",async (req,res)=>{
   }
 });
 authRouter.get('/',function(req,res){
-  res.sendFile("./public/index.html");
+  res.sendFile(path.join(__directory,'./public','index.html'));
   //__dirname : It will resolve to your project folder.
 });
 
