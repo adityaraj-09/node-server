@@ -3,7 +3,7 @@ const {Product} = require("../model/product");
 const router=express.Router();
 const auth=require("../middlewares/authMiddleware")
 
-router.post("/api/addProduct",auth,async (req,res) =>{
+router.post("/api/addProduct",async (req,res) =>{
     try {
         const {userId,title,category,desc,price,location,isNegotiable,image} =req.body;
 
@@ -28,7 +28,7 @@ router.post("/api/addProduct",auth,async (req,res) =>{
 });
 
 
-router.post("/api/deleteProduct",auth,async (req,res)=>{
+router.post("/api/deleteProduct",async (req,res)=>{
     try {
         const {id}=req.body;
     let product=await Product.findByIdAndDelete(id);
@@ -38,7 +38,7 @@ router.post("/api/deleteProduct",auth,async (req,res)=>{
     }
 
 });
-router.post("/api/editProduct/:id",auth,async(req,res)=>{
+router.post("/api/editProduct/:id",async(req,res)=>{
     try {
         const {id}=req.params;
         const {title,userId,category,desc,price,location,isNegotiable,image} =req.body;
@@ -63,7 +63,7 @@ router.post("/api/editProduct/:id",auth,async(req,res)=>{
 })
 
 
-router.get("/api/getProductById/:id",auth,async (req,res)=>{
+router.get("/api/getProductById/:id",async (req,res)=>{
     try {
         const {id}=req.params;
         const product=await Product.findById(id);
@@ -84,7 +84,7 @@ router.get("/api/products",async (req,res)=>{
         res.status(500).json({error:error.message});
         }
 });
-router.get("/api/products/:userId",auth,async (req,res)=>{
+router.get("/api/products/:userId",async (req,res)=>{
     try{
         const {userId} =req.params;
         const products=await Product.find({
