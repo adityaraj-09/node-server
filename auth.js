@@ -75,6 +75,7 @@ authRouter.post("/tokenValid",async(req,res) =>{
       
     }
     const isVerified=jwt.verify(token,"adityaMalekith09");
+    
     if(!isVerified){
       return res.json(false);
     }

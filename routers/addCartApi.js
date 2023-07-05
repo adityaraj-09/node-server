@@ -4,7 +4,7 @@ const Cart=require("../model/cart");
 const {Product}=require("../model/product");
 const auth=require("../middlewares/authMiddleware");
 
-const router=express.Router();~
+const router=express.Router();
 
 router.post("/api/addToCart",async (req,res) =>{
     try {
@@ -61,14 +61,20 @@ router.post("/api/addToCart",async (req,res) =>{
 });
 
 router.get("/api/cart/:userId",async (req,res)=>{
-    const {userId}=req.params;
-    const cart=await Cart.findOne({userId:userId});
-    if(cart){
-        res.status(200).json(cart.products);
-    }else{
-        res.status(400).json({msg:"not available"});
+    try {
+        const {userId}=req.params;
+        const cart=await Cart.findOne({userId:userId});
+        if(cart){
+            res.status(200).json(cart.products);
+        }else{
+            res.status(400).json({msg:"not available"});
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({error:error.message});
     }
-    
+   
 });
 
 router.post("/api/remove-from-cart",async (req,res)=>{
@@ -82,7 +88,7 @@ router.post("/api/remove-from-cart",async (req,res)=>{
             productsArray.splice(i,1);
         }
     }
-     
+     updated=await cart.save();
     res.status(200).json({msg:"removed from cart"});
 
     } catch (error) {
@@ -91,10 +97,6 @@ router.post("/api/remove-from-cart",async (req,res)=>{
     
 
 });
-
-
-
-
 
 
 
