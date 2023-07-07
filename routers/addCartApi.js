@@ -24,18 +24,20 @@ router.post("/api/addToCart",async (req,res) =>{
             for(let i=0;i<cart.products.length;i++){
                 if(cart.products[i].product._id.equals(product._id)){
                     isProductFound=true;
+                    
+                    cart.products[i].quantity += 1;
+                    const added=await cart.save();
+                    res.status(200).json(added);
                 }
             }
     
-            if(isProductFound){
-                res.status(400).json({msg:"already in the cart"});
-            }else{
-                cart.products.push({product:product,quantity:quantity});
+           if(!isProductFound){
+            cart.products.push({product:product,quantity:quantity});
                 const added=await cart.save();
                 res.status(200).json(added);
-            }
-    
-           
+           }
+                
+          
         } 
     }else{
         var products=[];
@@ -97,6 +99,8 @@ router.post("/api/remove-from-cart",async (req,res)=>{
     
 
 });
+
+
 
 
 
