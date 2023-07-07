@@ -86,7 +86,12 @@ router.post("/api/remove-from-cart",async (req,res)=>{
     var productsArray=cart.products;
     for(let i=0;i<productsArray.length;i++){
         if(productsArray[i].product._id.equals(id)){
-            productsArray.splice(i,1);
+            if(productsArray[i].quantity==1){
+                productsArray.splice(i,1);
+            }else{
+                productsArray[i].quantity-=1;
+            }
+           
         }
     }
      updated=await cart.save();
