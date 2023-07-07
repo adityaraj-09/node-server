@@ -29,7 +29,6 @@ authRouter.post("/api/signUp",async (req,res)=>{
      address:address,
      phone:phone,
      image:image
-     
    });
    user=await user.save();
    res.status(200).json(user);
@@ -37,9 +36,9 @@ authRouter.post("/api/signUp",async (req,res)=>{
     res.status(500).json({error:error.message});
   }
 });
+
 authRouter.get('/',function(req,res){
   res.sendFile('./public/index.html',{ root: "./" });
-  //__dirname : It will resolve to your project folder.
 });
 
 authRouter.post("/api/signIn",async (req,res)=>{

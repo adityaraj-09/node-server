@@ -1,5 +1,6 @@
 const express=require("express");
 const User=require("../model/user");
+const {Product} = require("../model/product");
 const authRouter=express.Router();
 const bcrypt=require("bcryptjs");
 const auth=require("../middlewares/authMiddleware");
@@ -93,5 +94,56 @@ authRouter.post("/api/change-email",auth,async (req,res)=>{
     } catch (error) {
         res.status(500).json({error:error.message});
     }
+});
+
+
+authRouter.post("/api/suggestion",async(req,res) =>{
+    const {email,category}=req.body;
+
+    let user=await User.findOne({email:email});
+
+    let set=new Set(user.suggestion);
+    if(set.has(category)){
+        res.status(400).json({msg:"already present"});
+    }else if(user.suggestion.length==4){
+        user.suggestion=user.suggestion.shift();
+        user.suggestion.push(category);
+        res.status(200).json(user);
+    }else{
+        user.suggestion.push(category);
+        res.status(200).json(user);
+    }
+    
+    let up=await user.save();
+    
+});
+
+
+authRouter.get("/api/recommended/:email",async (req,res) =>{
+    try {
+        const {email}=req.params;
+    const user=await User.findOne({email:email});
+
+    let rec=[];
+
+   
+    for(let i=0;i<user.suggestion.length;i++){
+        let product1=await Product.find({category:user.suggestion[i]});
+
+        rec.push(product1[Math.floor(Math.random() * (product1.length))]);
+
+    }
+
+     res.status(200).json(rec);
+ 
+        
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+
+    
 })
+
+
+
 module.exports=authRouter;

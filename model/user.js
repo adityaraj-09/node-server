@@ -46,6 +46,10 @@ const userSchema=mongoose.Schema({
     image:{
         type: String,
         default: "",
+    },
+    suggestion:{
+        type:Array,
+        default:[]
     }  
       
 });
