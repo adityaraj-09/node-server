@@ -8,19 +8,29 @@ router.post("/api/addProduct",async (req,res) =>{
     try {
         const {userId,title,category,desc,price,location,isNegotiable,image} =req.body;
 
-        let product=new Product({
-            userId:req.body.userId,
-            title:req.body.title,
-            category:req.body.category,
-            desc:req.body.desc,
-            price:req.body.price,
-            location:req.body.location,
-            isNegotiable:req.body.isNegotiable,
-            image:req.body.image
-        })
+        const ifThisProductFound=await Product.findOne({image:image});
 
-        product=await product.save();
-        res.status(200).json(product);
+        if(ifThisProductFound){
+            res.status(400).json({msg:"already present"});
+
+        }else{
+            let product=new Product({
+                userId:req.body.userId,
+                title:req.body.title,
+                category:req.body.category,
+                desc:req.body.desc,
+                price:req.body.price,
+                location:req.body.location,
+                isNegotiable:req.body.isNegotiable,
+                image:req.body.image
+            });
+            product=await product.save();
+           res.status(200).json(product);
+        }
+
+        
+
+        
 
     } catch (error) {
          res.status(500).json({error:error.message});
@@ -167,8 +177,9 @@ router.get("/api/search/:query",async (req,res)=>{
         let list=[];
         for(let i=0;i<products.length;i++){
             let title=products[i]["title"].toUpperCase();
+            let desc=products[i]["desc"].toUpperCase();
            
-            if(title.includes(query.toUpperCase())){
+            if(title.includes(query.toUpperCase()) || desc.includes(query.toUpperCase())){
                 list.push(products[i]);
             }
 

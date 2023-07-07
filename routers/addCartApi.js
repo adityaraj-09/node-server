@@ -24,7 +24,6 @@ router.post("/api/addToCart",async (req,res) =>{
             for(let i=0;i<cart.products.length;i++){
                 if(cart.products[i].product._id.equals(product._id)){
                     isProductFound=true;
-                    
                     cart.products[i].quantity += 1;
                     const added=await cart.save();
                     res.status(200).json(added);
