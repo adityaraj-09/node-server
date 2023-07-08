@@ -107,7 +107,7 @@ authRouter.post("/api/suggestion",async(req,res) =>{
         res.status(400).json({msg:"already present"});
     }
     if(user.suggestion.length==4){
-        user.suggestion=user.suggestion.shift();
+        user.suggestion.shift();
         user.suggestion.push(category);
         res.status(200).json(user);
     }else{
