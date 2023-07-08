@@ -105,15 +105,17 @@ authRouter.post("/api/suggestion",async(req,res) =>{
     let set=new Set(user.suggestion);
     if(set.has(category)){
         res.status(400).json({msg:"already present"});
-    }
-    if(user.suggestion.length==4){
+    }else{
+        if(user.suggestion.length==4){
         user.suggestion.shift();
         user.suggestion.push(category);
         res.status(200).json(user);
-    }else{
+        }else{
         user.suggestion.push(category);
         res.status(200).json(user);
+        }
     }
+    
     
     let up=await user.save();
     
