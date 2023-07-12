@@ -50,6 +50,10 @@ const userSchema=mongoose.Schema({
     suggestion:{
         type:Array,
         default:[]
+    },
+    wishlist:{
+        type:Array,
+        default:[]
     }  
       
 });

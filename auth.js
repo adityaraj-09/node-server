@@ -31,7 +31,7 @@ authRouter.post("/api/signUp",async (req,res)=>{
      image:image
    });
    user=await user.save();
-   res.status(200).json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({error:error.message});
   }
@@ -109,6 +109,25 @@ authRouter.get("/authorized-User", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
 });
+
+authRouter.get("/user/:email",async (req,res)=>{
+  try {
+
+    const {email}=req.params;
+  const user=await User.findOne({email:email});
+  if(user){
+    res.status(200).json(user)
+  }else{
+    res.status(400).json({msg:"no user found"})
+  }
+ 
+    
+  } catch (error) {
+    res.status(500).json({error:error.message});
+  }
+  
+
+})
 
 
 

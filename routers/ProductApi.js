@@ -14,10 +14,11 @@ router.post("/api/addProduct",async (req,res) =>{
             res.status(400).json({msg:"already present"});
 
         }else{
+            
             let product=new Product({
                 userId:req.body.userId,
                 title:req.body.title,
-                category:req.body.category,
+                category:category,
                 desc:req.body.desc,
                 price:req.body.price,
                 location:req.body.location,
@@ -27,10 +28,6 @@ router.post("/api/addProduct",async (req,res) =>{
             product=await product.save();
            res.status(200).json(product);
         }
-
-        
-
-        
 
     } catch (error) {
          res.status(500).json({error:error.message});
@@ -189,6 +186,20 @@ router.get("/api/search/:query",async (req,res)=>{
     } catch (error) {
         res.status(500).json({error:error.message});
     }
+})
+
+router.post("/api/edit",async (req,res)=>{
+    const products=await Product.find({
+        category:"Gadgets"
+    });
+
+    for (let i=0;i<products.length;i++){
+        products[i].category="electronics";
+        products[i].save();
+
+    }
+
+    res.status(200).json({msg:"success"});
 })
 
 
