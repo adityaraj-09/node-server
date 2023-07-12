@@ -5,7 +5,7 @@ const authRouter=express.Router();
 const bcrypt=require("bcryptjs");
 const auth=require("../middlewares/authMiddleware");
 
-authRouter.post("/api/update-user",auth,async (req,res)=>{
+authRouter.post("/api/update-user",async (req,res)=>{
     try {
         const {name,address,image,phone,email}=req.body;
         const existingUser=await User.findOne({
