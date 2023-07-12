@@ -7,7 +7,7 @@ const auth=require("../middlewares/authMiddleware");
 
 authRouter.post("/api/update-user",auth,async (req,res)=>{
     try {
-        const {name,address,image,phone}=req.body;
+        const {name,address,image,phone,email}=req.body;
         const existingUser=await User.findOne({
             email:email
            });
