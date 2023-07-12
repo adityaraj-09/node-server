@@ -105,13 +105,15 @@ authRouter.post("/api/suggestion",async(req,res) =>{
     let set=new Set(user.suggestion);
     if(set.has(category)){
         res.status(400).json({msg:"already present"});
-    }else if(user.suggestion.length==4){
-        user.suggestion=user.suggestion.shift();
-        user.suggestion.push(category);
-        res.status(200).json(user);
-    }else{
-        user.suggestion.push(category);
-        res.status(200).json(user);
+    }else {
+        if(user.suggestion.length==4){
+            user.suggestion.shift();
+            user.suggestion.push(category);
+            res.status(200).json(user);
+        }else{
+            user.suggestion.push(category);
+            res.status(200).json(user);
+        }
     }
     
     let up=await user.save();
@@ -144,6 +146,42 @@ authRouter.get("/api/recommended/:email",async (req,res) =>{
     
 })
 
+authRouter.post("/api/addToWishlist",async (req,res) =>{
+    try {
+        const {id,email}=req.params;
+        let user=await User.findOne({email:email});
+
+        let set=new Set(user.wishlist);
+        if(set.has(id)){
+            res.status(400).json({msg:"already present"});
+        }else{
+            user.wishlist.push(id);
+         res.status(200).json(user.wishlist);
+        }
+
+        newUser=await user.save();
+        
+    } catch (error) {
+        res.status(500).json({error:error.message}); 
+    }
+})
+
+authRouter.get("/api/wishlist/:email",async (req,res) =>{
+    try {
+        const {email}=req.params;
+        const user=await User.findOne({email:email});
+        var wishes=[];
+
+        for (let i = 0; i < user.wishlist.length; i++) {
+           let product=await Product.findById(user.wishlist[i]);
+            wishes.push(product);
+        }
+        res.status(200).json(wishes);
+        
+    } catch (error) {
+        res.status(500).json({error:error.message}); 
+    }
+})
 
 
 module.exports=authRouter;
