@@ -7,7 +7,7 @@ const auth=require("../middlewares/authMiddleware");
 
 authRouter.post("/api/update-user",auth,async (req,res)=>{
     try {
-        const {name,address,image,phone,email}=req.body;
+        const {name,address,image,phone}=req.body;
         const existingUser=await User.findOne({
             email:email
            });
@@ -98,35 +98,25 @@ authRouter.post("/api/change-email",auth,async (req,res)=>{
 
 
 authRouter.post("/api/suggestion",async(req,res) =>{
-    try{
-        const {email,category}=req.body;
+    const {email,category}=req.body;
 
-            let user=await User.findOne({email:email});
+    let user=await User.findOne({email:email});
 
-            let set=new Set(user.suggestion);
-            if(set.has(category)){
-                res.status(400).json({msg:"already present"});
-            }else {
-                if(user.suggestion.length==4){
-                    user.suggestion.shift();
-                    user.suggestion.push(category);
-                    res.status(200).json(user);
-                }else{
-                    user.suggestion.push(category);
-                    res.status(200).json(user);
-                }
-            } 
-
-            let up=await user.save();
-
-    }catch(e){
-        res.status(500).json({error:e.message});
-
+    let set=new Set(user.suggestion);
+    if(set.has(category)){
+        res.status(400).json({msg:"already present"});
+    }else if(user.suggestion.length==4){
+        user.suggestion=user.suggestion.shift();
+        user.suggestion.push(category);
+        res.status(200).json(user);
+    }else{
+        user.suggestion.push(category);
+        res.status(200).json(user);
     }
-
+    
+    let up=await user.save();
     
 });
-
 
 
 authRouter.get("/api/recommended/:email",async (req,res) =>{
@@ -153,66 +143,6 @@ authRouter.get("/api/recommended/:email",async (req,res) =>{
 
     
 })
-
-authRouter.post("/api/addtowishlist",async (req,res)=>{
-    try {
-        const {email,id}=req.body;
-        let user=await User.findOne({email:email});
-
-        let set=new Set(user.wishlist);
-        if(set.has(id)){
-            res.status(400).json({msg:"already present"});
-        }else{
-            user.wishlist.push(id);
-            res.status(200).json(user.wishlist);
-        }
-
-      await user.save();
-
-        
-    } catch (error) {
-        res.status(500).json({error:error.message});
-    }
-})
-
-
-authRouter.get("/api/wishlist/:email",async (req,res)=>{
-    try {
-        const {email}=req.params;
-        let user=await User.findOne({email:email});
-
-        let wl=[];
-
-        for(let i=0;i<user.wishlist.length;i++){
-            let product=await Product.findById(user.wishlist[i]);
-            wl.push(product);
-        }
-
-        res.status(200).json(wl)
-
-
-    } catch (error) {
-        res.status(500).json({error:error.message});
-    }
-})
-
-authRouter.post("/api/edit-address",async (req,res)=>{
-    try {
-        const {email,address}=req.body;
-        let user=await User.findOne({email:email});
-
-        user.address=address;
-        await user.save();
-        res.status(200).json(user);
-        
-    } catch (error) {
-        res.status(500).json({error:error.message});
-    }
-})
- 
-
-
-
 
 
 
