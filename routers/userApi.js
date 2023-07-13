@@ -187,6 +187,22 @@ authRouter.post("/api/remove-from-wishlist",async (req,res) =>{
     }
 })
 
+authRouter.post("/api/isInWishlist",async (req,res) =>{
+    try{
+        const {id,email}=req.body;
+        const user=await User.findOne({email:email});
+        let set=new Set(user.wishlist);
+            if(set.has(id)){
+                   res.status(200).json({msg:"already present"});
+            }else{
+                 res.status(400).json({msg:"not present"});
+            }
+
+    }catch(error){
+      res.status(500).json({error:error.message});
+    }
+})
+
 
 
 authRouter.get("/api/wishlist/:email",async (req,res) =>{
