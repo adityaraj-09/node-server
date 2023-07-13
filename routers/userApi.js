@@ -148,7 +148,7 @@ authRouter.get("/api/recommended/:email",async (req,res) =>{
 
 authRouter.post("/api/addToWishlist",async (req,res) =>{
     try {
-        const {id,email}=req.params;
+        const {id,email}=req.body;
         let user=await User.findOne({email:email});
 
         let set=new Set(user.wishlist);
@@ -165,6 +165,29 @@ authRouter.post("/api/addToWishlist",async (req,res) =>{
         res.status(500).json({error:error.message}); 
     }
 })
+
+authRouter.post("/api/remove-from-wishlist",async (req,res) =>{
+    try {
+        const {id,email}=req.body;
+        let user=await User.findOne({email:email});
+
+        let set=new Set(user.wishlist);
+        for(let i=0;i<user.wishlist.length;i++){
+           if(user.wishlist[i]==id){
+             user.wishlist.splice(i,1);
+           }
+        }
+        newUser=await user.save();
+        res.status(200).json(user.wishlist);
+
+
+
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+})
+
+
 
 authRouter.get("/api/wishlist/:email",async (req,res) =>{
     try {
