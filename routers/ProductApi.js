@@ -134,7 +134,7 @@ router.get("/api/categories",async (req,res) =>{
         for (let i=0;i<list.length;i++){
             const product=await Product.findOne({
                 category:list[i]
-            });
+            }).sort({_id:-1});
 
             categroryList.push({"category":list[i],
         "image":product.image})
@@ -175,8 +175,9 @@ router.get("/api/search/:query",async (req,res)=>{
         for(let i=0;i<products.length;i++){
             let title=products[i]["title"].toUpperCase();
             let desc=products[i]["desc"].toUpperCase();
+            let cat=products[i]['category'].toUpperCase();
            
-            if(title.includes(query.toUpperCase()) || desc.includes(query.toUpperCase())){
+            if(title.includes(query.toUpperCase()) || desc.includes(query.toUpperCase()) || cat.includes(query.toUpperCase())){
                 list.push(products[i]);
             }
 
