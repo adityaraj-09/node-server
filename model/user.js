@@ -33,8 +33,8 @@ const userSchema=mongoose.Schema({
         },
     },
     address: {
-        type: String,
-        default: "",
+        type: Array,
+        default: [],
       },
     
     phone:{

@@ -5,6 +5,9 @@ const authRouter=express.Router();
 const bcrypt=require("bcryptjs");
 const auth=require("../middlewares/authMiddleware");
 
+
+
+
 authRouter.post("/api/update-user",async (req,res)=>{
     try {
         const {name,address,image,phone,email}=req.body;
@@ -131,9 +134,11 @@ authRouter.get("/api/recommended/:email",async (req,res) =>{
    
     for(let i=0;i<user.suggestion.length;i++){
         let product1=await Product.find({category:user.suggestion[i]});
+        if(product1){
+            rec.push(product1[Math.floor(Math.random() * (product1.length))]);
+        }
 
-        rec.push(product1[Math.floor(Math.random() * (product1.length))]);
-
+    
     }
 
      res.status(200).json(rec);
@@ -187,6 +192,22 @@ authRouter.post("/api/remove-from-wishlist",async (req,res) =>{
     }
 })
 
+authRouter.post("/api/isInWishlist",async (req,res) =>{
+    try{
+        const {id,email}=req.body;
+        const user=await User.findOne({email:email});
+        let set=new Set(user.wishlist);
+            if(set.has(id)){
+                   res.status(200).json({msg:"already present"});
+            }else{
+                 res.status(400).json({msg:"not present"});
+            }
+
+    }catch(error){
+      res.status(500).json({error:error.message});
+    }
+})
+
 
 
 authRouter.get("/api/wishlist/:email",async (req,res) =>{
@@ -208,3 +229,6 @@ authRouter.get("/api/wishlist/:email",async (req,res) =>{
 
 
 module.exports=authRouter;
+
+
+
