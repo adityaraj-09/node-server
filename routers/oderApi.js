@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 const express=require("express");
 const Order=require("../model/order");
 const {Product}=require("../model/product");
-const Cart=require("../model/user");
+const Cart=require("../model/cart");
 
 const router=express.Router();
 
