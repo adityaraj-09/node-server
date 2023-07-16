@@ -6,7 +6,7 @@ const authRouter=require("./auth");
 const productRouter=require("./routers/ProductApi");
 const userRouter=require("./routers/userApi");
 const cartRouter=require("./routers/addCartApi");
-const orderRouter=require("./routers/orderApi");
+const orderRouter=require("./routers/oderApi");
 const app=express();
 const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
 
