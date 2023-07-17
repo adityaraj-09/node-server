@@ -37,9 +37,7 @@ authRouter.post("/api/signUp",async (req,res)=>{
   }
 });
 
-authRouter.get('/',function(req,res){
-  res.sendFile('./public/index.html',{ root: "./" });
-});
+
 
 authRouter.post("/api/signIn",async (req,res)=>{
 

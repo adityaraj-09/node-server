@@ -1,6 +1,7 @@
 const express=require("express");
 const PORT=process.env.PORT || 3000;
 const mongoose=require("mongoose");
+const path=require("path");
 
 const authRouter=require("./auth");
 const productRouter=require("./routers/ProductApi");
@@ -12,6 +13,7 @@ const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=
 
 app.use(express.json());
 app.use(authRouter);
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(productRouter);
 app.use(userRouter);
 app.use(cartRouter);

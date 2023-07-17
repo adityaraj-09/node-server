@@ -15,7 +15,8 @@
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.5.0",
-    "mongoose": "^6.3.2"
+    "mongoose": "^6.3.2",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
