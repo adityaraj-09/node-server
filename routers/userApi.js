@@ -123,6 +123,25 @@ authRouter.post("/api/suggestion",async(req,res) =>{
     
 });
 
+authRouter.get("/api/s-images/:email",async(req,res) =>{
+    try {
+        const {email}=req.params;
+        let img=[];
+        const user=await User.findOne({email:email});
+        let sg=user.suggestion;
+        for(let i=0;i<sg.length;i++){
+            let product=await Product.findOne({category:sg[i]}).sort({_id:-1});
+            img.push({category:sg[i],img:product.image});
+        }
+        res.status(200).json(img);
+        
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+    
+
+})
+
 
 authRouter.get("/api/recommended/:email",async (req,res) =>{
     try {
