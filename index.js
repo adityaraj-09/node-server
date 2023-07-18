@@ -19,8 +19,12 @@ app.use(userRouter);
 app.use(cartRouter);
 app.use(orderRouter);
 
+app.get("/api",(req,res)=>{
+  res.send("Hello world!,I am Aditya from IIT Delhi")
+})
+
 mongoose.connect(DB).then(()=>{
-    console.log('connection successful');
+    console.log('connection successful to mongodb');
 }).catch((e) => {
     console.log(e);
 });
