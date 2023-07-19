@@ -277,7 +277,7 @@ header{
     border-radius: 1.5rem;
 }
 .img_left:hover{
-    border: 2px solid var(--color-primary);  
+    border: 2px solid var(--color- primary);  
 }
 .ab_right{
     display: flex;

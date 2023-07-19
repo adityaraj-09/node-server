@@ -70,6 +70,17 @@ router.post("/api/order-single-product",async (req,res)=>{
     }
 })
 
+router.post("/api/cancel-order/:id",async (req,res)=>{
+    try {
+        const {id}=req.params;
+        let order=await Order.findByIdAndDelete(id);
+        res.status(200).json({msg:"deleted product "});
+
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+})
+
 router.get("/api/my-orders/:userId",async (req,res)=>{
     try {
         const {userId}=req.params;
@@ -82,8 +93,6 @@ router.get("/api/my-orders/:userId",async (req,res)=>{
             res.status(400).json({msg:"no orders"});
         }
 
-
-        
     } catch (error) {
         res.status(500).json({error:error.message});
     }

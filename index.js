@@ -1,5 +1,6 @@
 const express=require("express");
 const PORT=process.env.PORT || 3000;
+const cors=require('cors');
 const mongoose=require("mongoose");
 const path=require("path");
 
@@ -11,7 +12,7 @@ const orderRouter=require("./routers/oderApi");
 const app=express();
 const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
 
-app.use(express.json());
+app.use(cors());
 app.use(authRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(productRouter);
