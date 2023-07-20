@@ -12,7 +12,8 @@ const orderRouter=require("./routers/oderApi");
 const app=express();
 const DB="mongodb+srv://aditya:adi123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
 
-app.use(cors());
+app.use(cors())
+app.use(express.json())
 app.use(authRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(productRouter);
