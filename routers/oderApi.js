@@ -50,7 +50,8 @@ router.post("/api/order-single-product",async (req,res)=>{
 
         let products=[];
         let product = await Product.findById(id);
-        products.push(product);
+        products.push({product:product,
+        quantity:1});
         
 
 
