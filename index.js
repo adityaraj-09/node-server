@@ -10,7 +10,7 @@ const userRouter=require("./routers/userApi");
 const cartRouter=require("./routers/addCartApi");
 const orderRouter=require("./routers/oderApi");
 const app=express();
-const DB="";
+const DB="mongodb+srv://aditya:aditya123@cluster0.pxaqtot.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(cors())
 app.use(express.json())
